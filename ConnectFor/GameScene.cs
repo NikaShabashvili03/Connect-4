@@ -84,7 +84,7 @@ namespace ConnectFor
         }
 
 
-        private void initialP2Score()
+        private void InitialP2Score()
         {
             PictureBox[] scores = new PictureBox[P2Score];
             if (P2Score == 0)
@@ -100,14 +100,14 @@ namespace ConnectFor
                 scorePictureBox.Width = buttonSize;
                 scorePictureBox.Height = buttonSize;
                 scorePictureBox.Left = 200 / 2 - buttonSize / 2;
-                scorePictureBox.Top = i * (buttonSize + padding) + padding;
+                scorePictureBox.Top = (Round - 1) * (buttonSize + padding) + padding;
                 scorePictureBox.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, scorePictureBox.Width, scorePictureBox.Height, 100, 100));
                 scores[i] = scorePictureBox;
                 P2ScoreBoard.Controls.Add(scorePictureBox);
             }
         }
 
-        private void initialP2ScoreBoard()
+        private void InitialP2ScoreBoard()
         {
             P2ScoreBoard.Width = 200;
             P2ScoreBoard.Top = (MaxRound * 4) + 50;
@@ -118,7 +118,7 @@ namespace ConnectFor
             ScoreBoard.Controls.Add(P2ScoreBoard);
         }
 
-        private void initialP1Logo()
+        private void InitialP1Logo()
         {
             PictureBox pLogo = new PictureBox();
             Label pText = new Label();
@@ -131,8 +131,6 @@ namespace ConnectFor
             pLogo.BackgroundImageLayout = ImageLayout.Stretch;
             pLogo.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, pLogo.Width, pLogo.Height, 100, 100));
 
-
-
             pText.Top = 15;
             pText.Text = "Player 1";
             pText.BackColor = Color.Transparent;
@@ -143,7 +141,7 @@ namespace ConnectFor
             ScoreBoard.Controls.Add(pText);
         }
 
-        private void initialP2Logo()
+        private void InitialP2Logo()
         {
             PictureBox pLogo = new PictureBox();
             Label pText = new Label();
@@ -167,7 +165,7 @@ namespace ConnectFor
             ScoreBoard.Controls.Add(pLogo);
             ScoreBoard.Controls.Add(pText);
         }
-        private void initialP1Score()
+        private void InitialP1Score()
         {
             PictureBox[] scores = new PictureBox[P1Score];
             if (P1Score == 0)
@@ -183,13 +181,13 @@ namespace ConnectFor
                 scorePictureBox.Width = buttonSize;
                 scorePictureBox.Height = buttonSize;
                 scorePictureBox.Left = 200 / 2 - buttonSize / 2;
-                scorePictureBox.Top = i * (buttonSize + padding) + padding;
+                scorePictureBox.Top = (Round - 1) * (buttonSize + padding) + padding;
                 scorePictureBox.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, scorePictureBox.Width, scorePictureBox.Height, 100, 100));
                 scores[i] = scorePictureBox;
                 P1ScoreBoard.Controls.Add(scorePictureBox);
             }
         }
-        private void initialP1ScoreBoard()
+        private void InitialP1ScoreBoard()
         {
             P1ScoreBoard.Width = 200;
             P1ScoreBoard.Top = (MaxRound * 4) + 50;
@@ -199,7 +197,7 @@ namespace ConnectFor
             ScoreBoard.Controls.Add(P1ScoreBoard);
         }
 
-        private void initialRoundCounter()
+        private void InitialRoundCounter()
         {
             round.Left = ScoreBoard.Width / 2 - round.Width / 4;
             round.Text = Round + " / " + MaxRound;
@@ -209,7 +207,55 @@ namespace ConnectFor
             ScoreBoard.Controls.Add(round);
         }
 
-        private void initialScoreBoards()
+        private void InitialRounds()
+        {
+            Label[] rounds = new Label[MaxRound];
+            // 
+            for (int i = 0; i < MaxRound; i++)
+            {
+                Label roundloop = new Label();
+                roundloop.Text = (i + 1).ToString(); 
+                roundloop.Font = new Font("Segoe UI", 16.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+             
+             
+             
+                roundloop.TextAlign = ContentAlignment.MiddleCenter;
+
+                roundloop.Width = buttonSize;
+                roundloop.Height = buttonSize;
+
+                if(buttonSize == 50)
+                {
+                    roundloop.Left = (ScoreBoard.Width / 2) + roundloop.Width + roundloop.Width / 2;
+                }
+                else if(buttonSize == 60)
+                {
+                    roundloop.Left = (ScoreBoard.Width / 2) + roundloop.Width + 10;
+                }
+                else if(buttonSize == 70)
+                {
+                    roundloop.Left = (ScoreBoard.Width / 2) + roundloop.Width - 5;
+                }
+
+                roundloop.ForeColor = Color.Black;
+                roundloop.Top = i * (buttonSize + padding) + padding + (MaxRound * 4) + 50;
+
+                // Background 
+                //roundloop.ForeColor = Color.White;
+                //roundloop.BackColor = Color.FromArgb(0, 107, 223);
+                //roundloop.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, roundloop.Width, roundloop.Height, 70, 70));
+
+
+
+
+                rounds[i] = roundloop;
+
+
+                ScoreBoard.Controls.Add(roundloop);
+            }
+        }
+
+        private void InitialScoreBoards()
         {
             ScoreBoard.Width = 400;
             ScoreBoard.Height = gridSize * (buttonSize + padding) + padding * 2;
@@ -221,14 +267,17 @@ namespace ConnectFor
 
             this.Width += ScoreBoard.Width;
 
+         
             // Logos
-            initialP1Logo();
-            initialP2Logo();
-            initialRoundCounter();
+            InitialP1Logo();
+            InitialP2Logo();
+
+            InitialRoundCounter();
+
             // Scoreboard
             this.Controls.Add(ScoreBoard);
         }
-        private void initialResetButton()
+        private void InitialResetButton()
         {
             resetGameBtn.Width = 50;
             resetGameBtn.Height = 50;
@@ -352,11 +401,11 @@ namespace ConnectFor
                     GamePanel.Controls.Add(button);
                 }
             }
-            initialGridCols();
+            InitialGridCols();
             InitializeGamePanel(gridSize * (buttonSize + padding) + padding, gridSize * (buttonSize + padding) + padding * 2);
         }
 
-        private void initialGridCols()
+        private void InitialGridCols()
         {
             for (int i = 0; i < gridSize; i++)
             {
@@ -401,8 +450,8 @@ namespace ConnectFor
             P1Score = 0;
             P2Score = 0;
             Round = 0;
-            initialP2Score();
-            initialP1Score();
+            InitialP2Score();
+            InitialP1Score();
             Form1 form1 = new Form1();
             form1.Show();
             this.Hide();
@@ -449,11 +498,11 @@ namespace ConnectFor
                         if (CheckForWin(i, selectedCol, isPlayerX ? 'X' : 'O'))
                         {
                             Round += 1;
-                            initialRoundCounter();
+                            InitialRoundCounter();
                             if (isPlayerX)
                             {
                                 P1Score += 1;
-                                initialP1Score();
+                                InitialP1Score();
                                 if (Round == MaxRound)
                                 {
                                     endGame();
@@ -463,7 +512,7 @@ namespace ConnectFor
                             else if (!isPlayerX)
                             {
                                 P2Score += 1;
-                                initialP2Score();
+                                InitialP2Score();
                                 if (Round == MaxRound)
                                 {
                                     endGame();
@@ -477,8 +526,8 @@ namespace ConnectFor
                         {
                             DisableGame();
                             Round += 1;
-                            initialRoundCounter();
-                            initialRoundCounter();
+                            InitialRoundCounter();
+                            InitialRoundCounter();
                             if (Round == MaxRound)
                             {
                                 endGame();
@@ -679,13 +728,16 @@ namespace ConnectFor
         private void GameScene_Load(object sender, EventArgs e)
         {
             InitializeGrid();
+
             InitialTheme();
-            initialResetButton();
-            initialP1ScoreBoard();
-            initialP1Score();
-            initialP2Score();
-            initialP2ScoreBoard();
-            initialScoreBoards();
+            InitialResetButton();
+            InitialRounds();
+            InitialP1ScoreBoard();
+            InitialP2ScoreBoard();
+            InitialScoreBoards();
+            InitialP1Score();
+            InitialP2Score();
+
             this.BackgroundImage = Background;
 
 
