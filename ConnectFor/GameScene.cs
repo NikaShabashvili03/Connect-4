@@ -1,16 +1,5 @@
-﻿using ConnectFor.Properties;
-using Microsoft.VisualBasic;
-using Microsoft.VisualBasic.Logging;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
+﻿using System.Media;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace ConnectFor
 {
@@ -56,6 +45,7 @@ namespace ConnectFor
         private static int Round = 0;
         private static int MaxRound = 4;
         Label round = new Label();
+        SoundPlayer DropSoundEffect = new SoundPlayer(Properties.Resources.drop);
 
         public void setOptions(Image player1, Image player2, Image TitleTheme, Image Bg)
         {
@@ -221,29 +211,18 @@ namespace ConnectFor
              
                 roundloop.TextAlign = ContentAlignment.MiddleCenter;
 
-                roundloop.Width = buttonSize;
-                roundloop.Height = buttonSize;
+                roundloop.Width = 35;
+                roundloop.Height = 35;
 
-                if(buttonSize == 50)
-                {
-                    roundloop.Left = (ScoreBoard.Width / 2) + roundloop.Width + roundloop.Width / 2;
-                }
-                else if(buttonSize == 60)
-                {
-                    roundloop.Left = (ScoreBoard.Width / 2) + roundloop.Width + 10;
-                }
-                else if(buttonSize == 70)
-                {
-                    roundloop.Left = (ScoreBoard.Width / 2) + roundloop.Width - 5;
-                }
+                roundloop.Left = (ScoreBoard.Width / 2) + roundloop.Width * 2 + 13;
 
-                roundloop.ForeColor = Color.Black;
-                roundloop.Top = i * (buttonSize + padding) + padding + (MaxRound * 4) + 50;
+                roundloop.Top = i * (buttonSize + padding) + padding + (MaxRound * 4) + 60;
 
+                //roundloop.ForeColor = Color.Black;
                 // Background 
-                //roundloop.ForeColor = Color.White;
-                //roundloop.BackColor = Color.FromArgb(0, 107, 223);
-                //roundloop.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, roundloop.Width, roundloop.Height, 70, 70));
+                roundloop.ForeColor = Color.White;
+                roundloop.BackColor = Color.FromArgb(0, 107, 223);
+                roundloop.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, roundloop.Width, roundloop.Height, 70, 70));
 
 
 
@@ -473,6 +452,7 @@ namespace ConnectFor
             }
             HardResetGame();
         }
+
         private void Button_Click(object sender, EventArgs e)
         {
             Button clickedButton = sender as Button;
@@ -486,6 +466,7 @@ namespace ConnectFor
                 {
                     if (gridState[i, selectedCol] == ' ')
                     {
+                        DropSoundEffect.Play();
                         selectedColTokenForDrop[selectedCol].BackgroundImage = isPlayerX ? Player2_Token : Player1_Token;
                
                         gridState[i, selectedCol] = isPlayerX ? 'X' : 'O';
